@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npx tsc
+RUN chmod +x node_modules/.bin/tsc && npm run build
 
 EXPOSE 3000
 
