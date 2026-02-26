@@ -1,0 +1,24 @@
+name: CI - Build Docker Image
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t lab-01 ./lab-01
+
+      - name: Run container
+        run: docker run -d -p 3000:3000 --name test-app lab-01
+
+      - name: Test app is running
+        run: |
+          sleep 3
+          curl http://localhost:3000
