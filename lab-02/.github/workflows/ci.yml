@@ -1,0 +1,24 @@
+name: CI - Build App
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Compose
+        run: docker compose -f lab-02/docker-compose.yml up -d
+      
+      - name: Test app is running
+        run: |
+          sleep 3
+          curl http://localhost:3000
+
+      - name: Clean up
+        run: docker compose -f lab-02/docker-compose.yml down 
