@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t lab-01 .
+        run: docker build -t lab-01 ./lab-01
 
       - name: Run container
         run: docker run -d -p 3000:3000 --name test-app lab-01
@@ -21,4 +21,4 @@ jobs:
       - name: Test app is running
         run: |
           sleep 3
-          curl https://localhost:3000
+          curl http://localhost:3000
