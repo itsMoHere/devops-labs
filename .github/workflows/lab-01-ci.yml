@@ -2,6 +2,8 @@ name: CI - Build Docker Image
 
 on:
   push:
+    paths:
+      - "lab-01/**"
     branches: ["main"]
 
 jobs:

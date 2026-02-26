@@ -3,6 +3,8 @@ name: CI - Build App
 on:
   push:
     branches: ["main"]
+    paths:
+      - "lab-02/**"
 
 jobs:
   build:
