@@ -24,6 +24,9 @@ jobs:
         run: |
           docker compose -f lab-04/docker-compose.yml up -d --wait
       
+      - name: Check app logs
+        run: docker compose -f lab-04/docker-compose.yml logs app
+      
       - name: Check image size
         run: docker images | grep lab-04-app
 
