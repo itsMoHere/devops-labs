@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "lab-04/**"
-      - ".github/workflows/lab-03-ci.yml"
+      - ".github/workflows/lab-04-ci.yml"
 
 jobs:
   build:
