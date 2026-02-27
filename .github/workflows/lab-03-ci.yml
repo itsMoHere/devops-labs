@@ -1,4 +1,4 @@
-name: CI - LAB 03
+name: LAB 03 - CI
 
 on:
   push:
@@ -10,6 +10,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
 
     steps:
       - name: Checkout Code
@@ -17,20 +22,16 @@ jobs:
 
       - name: Docker Compose
         run: |
-          docker compose -f lab-03/docker-compose.yml up -d
-          sleep 5
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+          docker compose -f lab-03/docker-compose.yml up -d --wait
       
       - name: Check containers
         run: docker ps
 
+      - name: Check app logs
+        run: docker compose -f lab-03/docker-compose.yml logs app 
+
       - name: Create a todo
         run: |
-          sleep 5
           curl -X POST http://localhost:3000/todos \
           -H "Content-Type: application/json" \
           -d '{"title":"my first todo"}'

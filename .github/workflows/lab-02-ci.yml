@@ -1,4 +1,4 @@
-name: CI - Build App
+name: Lab-02 - CI - Build App
 
 on:
   push:
