@@ -22,7 +22,7 @@ jobs:
 
       - name: Docker Compose
         run: |
-          docker compose -f lab-03/docker-compose.yml up -d
+          docker compose -f lab-03/docker-compose.yml up -d --wait
       
       - name: Check containers
         run: docker ps
