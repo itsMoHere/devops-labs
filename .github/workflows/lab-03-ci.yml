@@ -1,0 +1,44 @@
+name: CI - LAB 03
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "lab-03/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Docker Compose
+        run: |
+          docker compose -f lab-03/docker-compose.yml up -d
+          sleep 5
+
+      - name: Create a todo
+        run: |
+          sleep 3
+          curl -X POST http://localhost:3000/todos \
+          -H "Content-Type: application/json" \
+          -d '{"title":"my first todo"}'
+        
+      - name: Print todo
+        run: |
+          curl -X GET http://localhost:3000/todos
+
+      - name: Update todo
+        run: |
+          curl -X PUT http://localhost:3000/todos/1 \
+            -H "Content-Type: application/json" \
+            -d '{"done":true}'
+
+      - name: Delete todo
+        run: |
+          curl -X DELETE http://localhost:3000/todos/1    
+
+      - name: Clean up
+        run: docker compose -f lab-03/docker-compose.yml down
