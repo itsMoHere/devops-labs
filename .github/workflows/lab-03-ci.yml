@@ -21,6 +21,7 @@ jobs:
 
       - name: Create a todo
         run: |
+          sleep 2
           curl -X POST http://localhost:3000/todos \
           -H "Content-Type: application/json" \
           -d '{"title":"my first todo"}'
