@@ -28,6 +28,9 @@ jobs:
       - name: Check containers
         run: docker ps
 
+      - name: Check app logs
+        run: docker compose -f lab-03/docker-compose.yml logs app 
+
       - name: Create a todo
         run: |
           sleep 5
