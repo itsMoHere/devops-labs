@@ -19,6 +19,9 @@ jobs:
         run: |
           docker compose -f lab-03/docker-compose.yml up -d
           sleep 5
+      
+      - name: Check containers
+        run: docker ps
 
       - name: Create a todo
         run: |
