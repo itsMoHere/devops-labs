@@ -11,6 +11,11 @@ services:
       depends_on:
         db:
           condition: service_healthy
+      healthcheck:
+        test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/todos"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
     
     db:
       image: postgres:15
