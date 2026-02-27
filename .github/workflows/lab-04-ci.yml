@@ -1,0 +1,57 @@
+name: LAB 04 - CI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "lab-04/**"
+      - ".github/workflows/lab-03-ci.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Docker Compose
+        run: |
+          docker compose -f lab-04/docker-compose.yml up -d --wait
+      
+      - name: Check image size
+        run: docker images | grep lab-04-app
+
+      - name: Check containers
+        run: docker ps
+
+      - name: Check app logs
+        run: docker compose -f lab-04/docker-compose.yml logs app 
+
+      - name: Create a todo
+        run: |
+          curl -X POST http://localhost:3000/todos \
+          -H "Content-Type: application/json" \
+          -d '{"title":"my first todo"}'
+        
+      - name: Print todo
+        run: |
+          curl -X GET http://localhost:3000/todos
+
+      - name: Update todo
+        run: |
+          curl -X PUT http://localhost:3000/todos/1 \
+            -H "Content-Type: application/json" \
+            -d '{"done":true}'
+
+      - name: Delete todo
+        run: |
+          curl -X DELETE http://localhost:3000/todos/1    
+
+      - name: Clean up
+        run: docker compose -f lab-04/docker-compose.yml down
