@@ -23,7 +23,6 @@ jobs:
       - name: Docker Compose
         run: |
           docker compose -f lab-03/docker-compose.yml up -d
-          sleep 5
       
       - name: Check containers
         run: docker ps
@@ -33,7 +32,6 @@ jobs:
 
       - name: Create a todo
         run: |
-          sleep 5
           curl -X POST http://localhost:3000/todos \
           -H "Content-Type: application/json" \
           -d '{"title":"my first todo"}'
